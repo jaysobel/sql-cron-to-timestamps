@@ -97,9 +97,9 @@ with cron_part_values as (
       end as cron_part
       -- replace wildcard * with equivalent selector (per cron_part)
     , case
-        when split_part(cron, ' ', space_number.n) = '*'
+        when split_part(crons.cron, ' ', space_number.n) = '*'
         then cron_part_defaults.star_range
-        else split_part(cron, ' ', space_number.n)
+        else split_part(crons.cron, ' ', space_number.n)
       end as cron_part_entry_raw
     , case 
         when space_number.n = 5
@@ -109,14 +109,14 @@ with cron_part_values as (
     , comma_numbers.n as cron_part_entry_comma_index
     , split_part(cron_part_entry, ',', cron_part_entry_comma_index) as cron_part_comma_subentry
     , split_part(cron_part_comma_subentry, '/', 1) as cron_part_comma_subentry_range
-    , coalesce(nullif(split_part(cron_part_comma_subentry, '/', 2), ''), 1) as cron_part_comma_subentry_step_value
+    , coalesce(nullif(split_part(cron_part_comma_subentry, '/', 2)::int, ''), 1) as cron_part_comma_subentry_step_value
     , split_part(cron_part_comma_subentry_range, '-', 1)::int as cron_part_comma_subentry_range_start
     , case
-        -- missing end and stepped range -> default end is max of range, for part
+        -- missing range end and stepped range -> default end is max of range, for part
         when split_part(cron_part_comma_subentry_range, '-', 2) = ''
          and regexp_count(cron_part_comma_subentry, '/') > 0
         then cron_part_defaults.stepped_range_end
-        -- end, or start again, if missing (for later inclusive between)
+        -- coalesce(end, start) as end, for later inclusive between
         else coalesce(
                nullif(split_part(cron_part_comma_subentry_range, '-', 2), '')::int
                , cron_part_comma_subentry_range_start

@@ -159,13 +159,13 @@ cron_timestamps as (
     , cron_part_month.value_text as month_value_text
     , month_days.value_text as day_of_month_value_text
     , case
-      when cron_part_day_of_month.cron_part is null
+        when cron_part_day_of_month.cron_part is null
         then 'Day of Week'
         when cron_part_day_of_week.cron_part is null
         then 'Day of Month'
         else 'Both'
       end as day_of_matching_case
-    , to_timestamp(
+    , to_timestamp_ntz(
         concat(
           years.year_text, '-', month_value_text, '-', day_of_month_value_text
           , ' '
@@ -203,5 +203,4 @@ cron_timestamps as (
 )
 
 select *
-from cron_timestamps
-;
+from cron_timestamps;

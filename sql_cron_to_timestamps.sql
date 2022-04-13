@@ -148,9 +148,9 @@ with cron_part_values as (
     -- mod step size (inclusive of start)
     and mod(cpv.value - cpcs.cron_part_comma_subentry_range_start, cpcs.cron_part_comma_subentry_step_value) = 0
   group by 1,2,3,4,5
-),
+)
 
-cron_timestamps as (
+, cron_timestamps as (
   select 
     cron_part_minute.cron
     , years.year

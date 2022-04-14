@@ -73,7 +73,7 @@ with cron_part_values as (
 
 -- unique passed cron codes
 , crons as (
-  select '5-29/2,31-59/4 4 4/5 * TUE-WED,1-3' as cron
+  select '5-29/2,31-59/4 */3 4/5 * TUE-WED,1-3' as cron
 ) 
 
 -- years of timestamps to return
@@ -84,7 +84,6 @@ with cron_part_values as (
   from dim_numbers
   where n between 1 and 2
 )
-
 , cron_part_comma_subentries as (
   select 
     crons.cron
@@ -96,20 +95,16 @@ with cron_part_values as (
         when 5 then 'day_of_week'
       end as cron_part
       -- replace wildcard * with equivalent selector (per cron_part)
-    , case
-        when split_part(crons.cron, ' ', space_number.n) = '*'
-        then cron_part_defaults.star_range
-        else split_part(crons.cron, ' ', space_number.n)
-      end as cron_part_entry_raw
+    , replace(split_part(crons.cron, ' ', space_number.n), '*', cron_part_defaults.star_range) as cron_part_entry_raw
     , case 
         when space_number.n = 5
-        then replace(replace(replace(replace(replace(replace(replace(replace(upper(cron_part_entry_raw), '7', '6'), 'SUN', '0'), 'MON', '1'), 'TUE', '2'), 'WED', '3'), 'THU', '4'), 'FRI', '5'), 'SAT', 6)
+        then replace(replace(replace(replace(replace(replace(replace(replace(upper(cron_part_entry_raw), '7', '6'), 'SUN', '0'), 'MON', '1'), 'TUE', '2'), 'WED', '3'), 'THU', '4'), 'FRI', '5'), 'SAT', '6')
         else cron_part_entry_raw
       end as cron_part_entry
     , comma_numbers.n as cron_part_entry_comma_index
     , split_part(cron_part_entry, ',', cron_part_entry_comma_index) as cron_part_comma_subentry
     , split_part(cron_part_comma_subentry, '/', 1) as cron_part_comma_subentry_range
-    , coalesce(nullif(split_part(cron_part_comma_subentry, '/', 2)::int, ''), 1) as cron_part_comma_subentry_step_value
+    , coalesce(nullif(split_part(cron_part_comma_subentry, '/', 2), '')::int, 1) as cron_part_comma_subentry_step_value
     , split_part(cron_part_comma_subentry_range, '-', 1)::int as cron_part_comma_subentry_range_start
     , case
         -- missing range end and stepped range -> default end is max of range, for part

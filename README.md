@@ -17,7 +17,7 @@ It remains unclear to me how a step or comma separated wildcard should be interp
 [Crontab spec](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html)
 
 
->In the POSIX locale, the user or application shall ensure that a crontab entry is a text file consisting of lines of six fields each. The fields shall be separated by <blank> characters. The first five fields shall be integer patterns that specify the following:
+>In the POSIX locale, the user or application shall ensure that a crontab entry is a text file consisting of lines of six fields each. The fields shall be separated by \<blank\> characters. The first five fields shall be integer patterns that specify the following:
 >
 > Minute [0,59]
 >
@@ -29,4 +29,4 @@ It remains unclear to me how a step or comma separated wildcard should be interp
 >
 > Day of the week ([0,6] with 0=Sunday)
 >
-> Each of these patterns can be either an <asterisk> (meaning all valid values), an element, or a list of elements separated by <comma> characters. An element shall be either a number or two numbers separated by a <hyphen-minus> (meaning an inclusive range). The specification of days can be made by two fields (day of the month and day of the week). If month, day of month, and day of week are all <asterisk> characters, every day shall be matched. If either the month or day of month is specified as an element or list, but the day of week is an <asterisk>, the month and day of month fields shall specify the days that match. If both month and day of month are specified as an <asterisk>, but day of week is an element or list, then only the specified days of the week match. Finally, if either the month or day of month is specified as an element or list, and the day of week is also specified as an element or list, then any day matching either the month and day of month, or the day of week, shall be matched.
+> Each of these patterns can be either an \<asterisk\> (meaning all valid values), an element, or a list of elements separated by \<comma\> characters. An element shall be either a number or two numbers separated by a \<hyphen-minus\> (meaning an inclusive range). The specification of days can be made by two fields (day of the month and day of the week). If month, day of month, and day of week are all \<asterisk\> characters, every day shall be matched. If either the month or day of month is specified as an element or list, but the day of week is an \<asterisk\>, the month and day of month fields shall specify the days that match. If both month and day of month are specified as an \<asterisk\>, but day of week is an element or list, then only the specified days of the week match. Finally, if either the month or day of month is specified as an element or list, and the day of week is also specified as an element or list, then any day matching either the month and day of month, or the day of week, shall be matched.

@@ -196,7 +196,6 @@ with cron_part_values as (
     and mod(date_part('dayofweek', to_date(concat(years.year_text, '-', cron_part_month.value_text, '-', month_days.value_text))), 7) = cron_part_day_of_week.value
     and cron_part_day_of_week.cron_part = 'day_of_week'
 
-  -- matching mode: non-element-or-list day_of_week: month & day_of_month
   where 
     (crons.day_match_mode = 'union' 
      and (cron_part_day_of_month.value is not null 

@@ -9,3 +9,5 @@ Written in Snowflake SQL, which provides handy functions like `last_day('2022-02
 Not tested, but the example cron expression outputs 10k rows in a couple seconds.
 
 Based on the rules described in [crontab guru](https://crontab.guru/#5-29/2_4_4/5_*_TUE-WED,1-3).
+
+Conversation on position 3, day of month, and position 5, day of week, being treated as OR when both are populated (but AND when at least one is a wildcard).

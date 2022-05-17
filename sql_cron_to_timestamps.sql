@@ -160,6 +160,7 @@ with dim_numbers as (
 , cron_timestamps as (
   select 
     crons.cron
+    , crons.day_match_mode
     , years.year
     , cron_part_minute.value_text as minute_value_text
     , cron_part_hour.value_text as hour_value_text
@@ -193,7 +194,7 @@ with dim_numbers as (
   -- left matched day_of_month
   left join cron_part_matched_values as cron_part_day_of_month
     on crons.cron = cron_part_day_of_month.cron
-    and cron_part_month.value = cron_part_day_of_month.value
+    and month_days.value = cron_part_day_of_month.value
     and cron_part_day_of_month.cron_part = 'day_of_month'
   -- left matched day_of_week
   left join cron_part_matched_values as cron_part_day_of_week

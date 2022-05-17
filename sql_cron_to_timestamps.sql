@@ -1,19 +1,24 @@
-with cron_part_values as (
+with dim_numbers as (
+  select row_number() over (order by 1) - 1 as n
+  from table (generator(rowcount => 60))
+)
+
+, cron_part_values as (
   select 
     'minute' as cron_part
-    , n - 1 as value
+    , n as value
     , right(concat('0', value::text), 2) as value_text
   from dim_numbers
-  where n between 1 and 60
+  where n between 0 and 59
   
     union all 
 
   select 
     'hour' as cron_part
-    , n - 1 as value
+    , n as value
     , right(concat('0', value::text), 2) as value_text
   from dim_numbers
-  where n between 1 and 24
+  where n between 0 and 23
   
     union all
   
@@ -71,10 +76,10 @@ with cron_part_values as (
 -- years of timestamps to return
 , years_forward as (
   select 
-    date_part('year', current_date) + n - 1 as year
+    date_part('year', current_date) + n as year
     , year::text as year_text
   from dim_numbers
-  where n between 1 and 2
+  where n between 0 and 1
 )
 , crons_day_match_mode as (
   select

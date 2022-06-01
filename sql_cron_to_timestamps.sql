@@ -107,7 +107,7 @@ with dim_numbers as (
         then 
           replace(replace(replace(replace(
             replace(replace(replace(replace(
-              upper(cron_part_entry_raw), '7', '6'), 'SUN', '0'), 'MON', '1'), 'TUE', '2')
+              upper(cron_part_entry_raw), '7', '0'), 'SUN', '0'), 'MON', '1'), 'TUE', '2')
             , 'WED', '3'), 'THU', '4'), 'FRI', '5'), 'SAT', '6')
         when space_number.n = 4
         then 

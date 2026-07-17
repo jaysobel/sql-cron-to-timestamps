@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository preserves the original standalone SQL prototype and is archived. The maintained, reusable implementation is the [`dbt-cron-timestamps`](https://github.com/jaysobel/dbt-cron-timestamps) package. Use its [versioned releases](https://github.com/jaysobel/dbt-cron-timestamps/releases) for tested Snowflake SQL, documented cron semantics, row-level intervals, and dbt installation.
+
 ### Snowflake SQL Cron to Timestamps
 
 Takes one or more rows containing cron schedule expressions and outputs all their matching timestamps within specified years.
